@@ -1,0 +1,124 @@
+    /* navbar */
+    .top-nav {
+        background-color: var(--brand);
+        color: #fff;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #2222ff;
+    }
+    
+    .top-nav p {
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 10px;
+    }
+    
+    .top-nav span,
+    .top-nav i {
+        vertical-align: middle;
+    }
+    
+    .navbar {
+        box-shadow: var(--shadow);
+    }
+    
+    .social-icons a {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.25);
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100px;
+    }
+    
+    .social-icons a:hover {
+        background-color: #fff;
+        color: var(--brand);
+    }
+    
+    .navbar .navbar-nav .nav-link {
+        color: var(--dark);
+    }
+    
+    .navbar .navbar-nav .nav-link:hover {
+        color: var(--brand);
+    }
+    
+    .navbar .navbar-nav .nav-link.active {
+        color: var(--brand);
+    }
+    
+    .navbar-brand {
+        font-size: 28px;
+        font-weight: 700;
+    }
+    
+    .navbar-brand .dot {
+        color: var(--brand);
+    }
+    
+    .bg-cover {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .nav-item{
+        margin:0 25px;
+        font-weight:500;
+    }
+    .link{
+        color:#000;
+        transition:0.5s;
+    }
+    .link:hover{
+        color: #696969;
+    }
+    .botao {
+        color: #FFFF;
+        background-color: #2222ff;
+        border: #2222ff;
+        padding: 7px 19px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+    
+    .botao:hover {
+        color: #fff;
+        text-decoration: none;
+        background: #619fec;
+    }
+    
+    .btn {
+        background-color: #2222ff;
+        border: #2222ff;
+        padding: 7px 19px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: 0.2s;
+        color: #fff; 
+    }@media (max-width: 576px) {
+            .contact-info {
+                font-size: 0.8rem;
+            }
+        }#navbar2{
+            border-bottom: 0%; 
+            z-index: 100; 
+            transition: 0.5s;
+        }#navbarBrand{
+            font-size: 23px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }#logo{
+            width: 35px; 
+            margin-right: 15px
+        }.link{
+            text-decoration: none;
+            margin-bottom: 10px;
+        }.login-btn {
+        color: #000; 
+    }
