@@ -38,8 +38,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Dados do Estoque 
-                            <a href="exibir.php" class="btn btn-danger float-end">
+                        <h4>Dados do curso 
+                            <a href="exibir_cursos.php" class="btn btn-danger float-end">
                                 VOLTAR
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
@@ -53,79 +53,62 @@
                         <?php
                         if(isset($_GET['id']))
                         {
-                            $estoque_id = mysqli_real_escape_string($mysqli, $_GET['id']);
-                            $query = "SELECT * FROM estoque WHERE id='$estoque_id' ";
+                            $curso_id = mysqli_real_escape_string($mysqli, $_GET['id']);
+                            $query = "SELECT curso.*, professor.nome AS professor_nome, professor.sobrenome AS professor_sobrenome FROM curso 
+                                      JOIN professor ON curso.id_prof = professor.id 
+                                      WHERE curso.id='$curso_id'";
                             $query_run = mysqli_query($mysqli, $query);
 
                             if(mysqli_num_rows($query_run) > 0)
                             {
-                                $estoque = mysqli_fetch_array($query_run);
-                                    $nome = $estoque['nome'];
-                                    $img = $estoque['imagem'];
-                                    $funcao = $estoque['funcao'];
-                                    $detalhe = $estoque['detalhe'];
-                                    $marca = $estoque['marca'];
-                                    $peso = $estoque['peso'];
-                                if (stripos($estoque['funcao'], 'Ração') === 0) {
-                                    $v_compra = ($estoque['valorcompra'] * 1000) . " p/Kg";
-                                    $v_venda = ($estoque['valorvenda'] * 1000) . " p/Kg";
-                                    $qtd = ($estoque['quantidade'] / 1000) . " Kg";
-                                }else{
-                                    $v_compra = $estoque['valorcompra'];
-                                    $v_venda = $estoque['valorvenda'];
-                                    $qtd = $estoque['quantidade'];
-                                }
+                                $curso = mysqli_fetch_array($query_run);
+                                    $titulo = $curso['titulo'];
+                                    $img = $curso['imagem_capa'];
+                                    $valor = $curso['valor'];
+                                    $descricao = $curso['descricao'];
+                                    $categoria = $curso['categoria'];
+                                    $dataDeCriacao = $curso['data_criacao'];
+                                    $professor = $curso['professor_nome'] . ' ' . $curso['professor_sobrenome'];
                                 ?>
                                      <div class="mb" style="text-align:center;align-items:center;">
                                         
-                                        <img class="form"  height='250px' src="img/estoque/<?=$estoque['imagem'];?>">
+                                        <img class="form"  height='250px' src="img/categoria/<?=$img;?>">
                                     </div>
                                     <div class="mb-3">
-                                        <label>Nome</label>
+                                        <label>Título:</label>
                                         <p class="form-control">
-                                            <?=$nome;?>
+                                            <?=$titulo;?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>funcao</label>
+                                        <label>Descrição:</label>
                                         <p class="form-control">
-                                            <?=$funcao;?>
+                                            <?=$descricao;?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>detalhe</label>
+                                        <label>Professor:</label>
                                         <p class="form-control">
-                                            <?=$detalhe;?>
+                                            <?=$professor;?>
+                                        </p>
+                                    </div>
+    
+                                    <div class="mb-3">
+                                        <label>Categoria:</label>
+                                        <p class="form-control">
+                                            <?=$categoria;?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Valor de Compra:</label>
+                                        <label>Valor do Curso:</label>
                                         <p class="form-control">
-                                           R$ <?=$v_compra;?>
+                                            <?=$valor;?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Valor de Venda:</label>
+                                        <label>Data de Criação do curso:</label>
                                         <p class="form-control">
-                                           R$ <?=$v_venda;?>
-                                        </p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label>Quantidade</label>
-                                        <p class="form-control">
-                                            <?=$qtd;?>
-                                        </p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label>Marca</label>
-                                        <p class="form-control">
-                                            <?=$marca;?>
-                                        </p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label>Peso</label>
-                                        <p class="form-control">
-                                            <?=$peso;?>
+                                            <?=date('d/m/Y', strtotime($dataDeCriacao));?>
                                         </p>
                                     </div>
 

@@ -9,18 +9,18 @@ if ($mysqli->connect_error) {
     die("Erro na conexão com o banco de dados: " . $mysqli->connect_error);
 }
 
-if (isset($_POST['delete_estoque'])) {
-    $estoque_id = mysqli_real_escape_string($mysqli, $_POST['delete_estoque']);
-    $query = "DELETE FROM estoque WHERE id='$estoque_id' ";
+if (isset($_POST['delete_cursos'])) {
+    $curso_id = mysqli_real_escape_string($mysqli, $_POST['delete_cursos']);
+    $query = "DELETE FROM curso WHERE id='$curso_id'";
     $query_run = mysqli_query($mysqli, $query);
 
     if ($query_run) {
-        $_SESSION['message'] = "produto excluído com sucesso";
-        header("Location: exibir.php");
+        $_SESSION['message'] = "Curso excluído com sucesso!";
+        header("Location: exibir_cursos.php");
         exit(0);
     } else {
-        $_SESSION['message'] = "Não foi possível excluir o produto";
-        header("Location: exibir.php");
+        $_SESSION['message'] = "Falha ao excluir o curso";
+        header("Location: home.php");
         exit(0);
     }
 }
@@ -29,83 +29,86 @@ function validar_valor($valor) {
     return floatval(str_replace(',', '.', $valor));
 }
 
-if (isset($_POST['update_estoque'])) {
-    $estoque_id = mysqli_real_escape_string($mysqli, $_POST['estoque_id']);
-    $nome = mysqli_real_escape_string($mysqli, $_POST['nome']);
-    $funcao = mysqli_real_escape_string($mysqli, $_POST['funcao']);
-    $detalhe = mysqli_real_escape_string($mysqli, $_POST['detalhe']);
-    $marca = mysqli_real_escape_string($mysqli, $_POST['marca']);
-    $peso = mysqli_real_escape_string($mysqli, $_POST['peso']);
+if (isset($_POST['update_curso'])) {
+    $curso_id = mysqli_real_escape_string($mysqli, $_POST['curso_id']);
+    $titulo = mysqli_real_escape_string($mysqli, $_POST['titulo']);
+    $descricao = mysqli_real_escape_string($mysqli, $_POST['descricao']);
+    $categoria = mysqli_real_escape_string($mysqli, $_POST['categoria']);
+    $valorDoCurso = validar_valor(mysqli_real_escape_string($mysqli, $_POST['valorDoCurso']));
+    $id_prof = mysqli_real_escape_string($mysqli, $_POST['professor']);
 
-    if (stripos($funcao, 'Ração') === 0) {
-        $valorcompra = validar_valor($_POST['valorcompra']) / 1000;
-        $valorvenda = validar_valor($_POST['valorvenda']) / 1000;
-        $quantidade = validar_valor($_POST['quantidade']) * 1000;
-    } else {
-        $valorcompra = validar_valor($_POST['valorcompra']);
-        $valorvenda = validar_valor($_POST['valorvenda']);
-        $quantidade = validar_valor($_POST['quantidade']);
+    // Verificar se o id_prof existe na tabela de professores
+    $prof_query = "SELECT id FROM professor WHERE id='$id_prof'";
+    $prof_result = mysqli_query($mysqli, $prof_query);
+    if (mysqli_num_rows($prof_result) == 0) {
+        $_SESSION['message'] = "ID do professor inválido";
+        header("Location: home.php");
+        exit(0);
     }
 
-    if (!empty($_FILES['imagem_input']['name'])) {
-        $imagem_input = basename($_FILES['imagem_input']['name']);
-        $imagem_temp_input = $_FILES['imagem_input']['tmp_name'];
-        $imagem_destination_input = 'img/estoque/' . $imagem_input;
+    if (!empty($_FILES['imagem_capa']['name'])) {
+        $imagem = basename($_FILES['imagem_capa']['name']);
+        $imagem_temp = $_FILES['imagem_capa']['tmp_name'];
+        $imagem_destination = "img/categoria/$imagem";
 
-        if (!move_uploaded_file($imagem_temp_input, $imagem_destination_input)) {
-            die("Erro ao mover o arquivo de imagem.");
+        if (!is_dir('img/categoria')) {
+            mkdir('img/categoria', 0777, true);
         }
 
-        $stmt = $mysqli->prepare("UPDATE estoque SET imagem=?, nome=?, funcao=?, detalhe=?, valorcompra=?, valorvenda=?, quantidade=?, marca=?, peso=? WHERE id=?");
-        $stmt->bind_param("ssssdddsdi", $imagem_input, $nome, $funcao, $detalhe, $valorcompra, $valorvenda, $quantidade, $marca, $peso, $estoque_id);
+        if (!move_uploaded_file($imagem_temp, $imagem_destination)) {
+            $_SESSION['message'] = "Falha ao mover o arquivo de imagem";
+            header("Location: home.php");
+            exit(0);
+        }
+
+        $query = "UPDATE curso SET titulo=?, descricao=?, categoria=?, valor=?, id_prof=?, imagem_capa=? WHERE id=?";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("ssssisi", $titulo, $descricao, $categoria, $valorDoCurso, $id_prof, $imagem, $curso_id);
     } else {
-        $stmt = $mysqli->prepare("UPDATE estoque SET nome=?, funcao=?, detalhe=?, valorcompra=?, valorvenda=?, quantidade=?, marca=?, peso=? WHERE id=?");
-        $stmt->bind_param("ssssddsdi", $nome, $funcao, $detalhe, $valorcompra, $valorvenda, $quantidade, $marca, $peso, $estoque_id);
+        $query = "UPDATE curso SET titulo=?, descricao=?, categoria=?, valor=?, id_prof=? WHERE id=?";
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("ssssis", $titulo, $descricao, $categoria, $valorDoCurso, $id_prof, $curso_id);
     }
 
-    if (!$stmt->execute()) {
-        die("Erro ao atualizar o estoque: " . $stmt->error);
+    if ($stmt->execute()) {
+        $_SESSION['message'] = "Curso atualizado com sucesso!";
+        header("Location: exibir_cursos.php");
+        $stmt->close();
+        exit(0);
+    } else {
+        $_SESSION['message'] = "Falha ao atualizar o curso";
+        header("Location: home.php");
+        $stmt->close();
+        exit(0);
     }
-    $stmt->close();
 }
 
-if (isset($_POST['save_estoque'])) {
-    $nome = mysqli_real_escape_string($mysqli, $_POST['nome']);  
-    $funcao = mysqli_real_escape_string($mysqli, $_POST['funcao']);
-    $detalhe = mysqli_real_escape_string($mysqli, $_POST['detalhe']);
-    if (stripos($funcao, 'Ração') === 0) {
-        // Para produtos de ração, converte valores para gramas
-        $valorcompra = validar_valor($_POST['valorcompra']) / 1000;
-        $valorvenda = validar_valor($_POST['valorvenda']) / 1000;
-        $quantidade = validar_valor($_POST['quantidade']) * 1000;
-    } else {
-        // Para outros produtos, utiliza os valores diretamente
-        $valorcompra = validar_valor($_POST['valorcompra']);
-        $valorvenda = validar_valor($_POST['valorvenda']);
-        $quantidade = validar_valor($_POST['quantidade']);
-    } 
-    $marca = mysqli_real_escape_string($mysqli, $_POST['marca']);
-    $peso = mysqli_real_escape_string($mysqli, $_POST['peso']);
+if (isset($_POST['save_curso'])) {
+    $titulo = mysqli_real_escape_string($mysqli, $_POST['titulo']);  
+    $descricao = mysqli_real_escape_string($mysqli, $_POST['descricao']);
+    $categoria = mysqli_real_escape_string($mysqli, $_POST['categoria']);
+    $valorDoCurso = mysqli_real_escape_string($mysqli, $_POST['valorDoCurso']);
+    $id_prof = mysqli_real_escape_string($mysqli, $_POST['id_prof']);
 
     // Processar o upload da foto
-    $imagem = basename($_FILES['imagem']['name']);
-    $imagem_temp = $_FILES['imagem']['tmp_name'];
-    $imagem_destination = 'img/estoque/' . $imagem;
+    $imagem = basename($_FILES['imagem_capa']['name']);
+    $imagem_temp = $_FILES['imagem_capa']['tmp_name'];
+    $imagem_destination = 'img/categoria/' . $imagem;
     if (!move_uploaded_file($imagem_temp, $imagem_destination)) {
         $_SESSION['message'] = "Falha ao mover o arquivo de imagem";
         header("Location: home.php");
         exit(0);
     }
 
-    $query = "INSERT INTO estoque (nome, funcao, detalhe, valorcompra, valorvenda, quantidade, marca, peso, imagem) VALUES ('$nome', '$funcao', '$detalhe', '$valorcompra', '$valorvenda', '$quantidade', '$marca', '$peso', '$imagem')";
+    $query = "INSERT INTO curso (titulo, descricao,categoria, valor, id_prof, imagem_capa) VALUES ('$titulo', '$descricao', '$categoria', '$valorDoCurso', '$id_prof','$imagem')";
 
     $query_run = mysqli_query($mysqli, $query);
     if ($query_run) {
-        $_SESSION['message'] = "Produto cadastrado com sucesso!";
-        header("Location: home.php");
+        $_SESSION['message'] = "Curso cadastrado com sucesso!";
+        header("Location: exibir_cursos.php");
         exit(0);
     } else {
-        $_SESSION['message'] = "Falha ao cadastrar o produto";
+        $_SESSION['message'] = "Falha ao cadastrar o curso";
         header("Location: home.php");
         exit(0);
     }

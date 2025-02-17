@@ -1,5 +1,8 @@
 <?php
     require '../config.php'; // Importa as configurações do site
+
+    // Inclua a conexão com o banco de dados, se necessário
+    require '../dbcon.php';
 ?>
    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
@@ -158,58 +161,97 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel" style="text-align:center">Cadastro de Estoque</h2>
+                <h2 class="modal-title" id="exampleModalLabel" style="text-align:center">Cadastro de Curso</h2>
                 <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            
             <div class="modal-body">
-                <form action="code.php" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome:</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" required>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="valorcompra" class="form-label">Valor de Compra:</label>
-                            <input type="text" class="form-control" id="valorcompra" name="valorcompra" placeholder="Digite o preço da compra" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="valorvenda" class="form-label">Valor de Venda:</label>
-                            <input type="text" class="form-control" id="valorvenda" name="valorvenda" placeholder="Digite o preço da venda" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="quantidade" class="form-label">Quantidade:</label>
-                            <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Digite a quantidade" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="funcao" class="form-label">Função:</label>
-                            <input type="text" class="form-control" id="funcao" name="funcao" placeholder="Digite a função" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="detalhe" class="form-label">Detalhe:</label>
-                            <input type="text" class="form-control" id="detalhe" name="detalhe" placeholder="Digite o detalhe" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="marca" class="form-label">Marca:</label>
-                            <input type="text" class="form-control" id="marca" name="marca" placeholder="Digite a marca" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="peso" class="form-label">Peso:</label>
-                            <input type="text" class="form-control" id="peso" name="peso" placeholder="Digite o peso" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="imagem" class="form-label">Imagem:</label>
-                        <input type="file" class="form-control" id="imagem" name="imagem" required>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" name="save_estoque" class="btn btn-primary">Enviar</button>
-                    </div>
-                </form>
+    <form action="code.php" method="post" enctype="multipart/form-data">
+        <div class="mb-3" id="preview-container" style="display: none; ">
+            <label for="preview" class="form-label">Pré-visualização:</label>
+            <img id="preview" src="#" alt="Pré-visualização da imagem" style="max-width: 100%; height: auto; border: 2px solid #2222ff; border-radius: 10px; margin-top: 10px;">
+        </div>
+        <style>
+            @media (max-width: 576px) {
+            #preview {
+                max-width: 100%;
+                height: auto;
+            }
+            }
+        </style>
+        <div class="mb-3">
+            <label for="imagem_capa" class="form-label">Imagem da capa:</label>
+            <input type="file" class="form-control" id="imagem_capa" name="imagem_capa" required>
+        </div>
+        
+        <script>
+            document.getElementById('imagem_capa').addEventListener('change', function(event) {
+                const [file] = event.target.files;
+                const previewContainer = document.getElementById('preview-container');
+                const preview = document.getElementById('preview');
+                if (file) {
+                    preview.src = URL.createObjectURL(file);
+                    previewContainer.style.display = 'block';
+                } else {
+                    preview.src = '#';
+                    previewContainer.style.display = 'none';
+                }
+            });
+        </script>
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Digite o titulo do curso" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="descicao" class="form-label">Descrição:</label>
+                <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Digite a descrição" required>
             </div>
+            <div class="col-md-6 mb-3">
+                <label for="valorDoCurso" class="form-label">Valor do curso:</label>
+                <input type="text" class="form-control" id="valorDoCurso" name="valorDoCurso" placeholder="Digite o valor do curso" required>
+                <script>
+                    $(document).ready(function(){
+                        $('#valorDoCurso').mask('#.##0,00', {reverse: true});
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="categoria" class="form-label">Categoria:</label>
+                <select class="form-control" id="categoria" name="categoria" required>
+                    <option value="" disabled selected>Selecione a categoria</option>
+                    <option value="Programação">Programação</option>
+                    <option value="Banco de Dados">Banco de Dados</option>
+                    <option value="Marketing Digital">Marketing Digital</option>
+                    <option value="Design UX/UI">Design UX/UI</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="professor" class="form-label">Professor:</label>
+                <select class="form-control" id="professor" name="id_prof" required>
+                    <option value="" disabled selected>Selecione o professor</option>
+                    <?php
+                        $query = "SELECT id, nome, sobrenome FROM professor";
+                        $result = mysqli_query($mysqli, $query);
+                        if ($result) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<option value='{$row['id']}'>{$row['nome']} {$row['sobrenome']}</option>";
+                            }
+                        } else {
+                            echo "<option value=''>Erro na conexão</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" name="save_curso" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>
+
         </div>
     </div>
 </div>

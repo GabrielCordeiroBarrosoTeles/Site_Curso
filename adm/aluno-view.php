@@ -55,7 +55,7 @@
                         if(isset($_GET['id']))
                         {
                             $student_id = mysqli_real_escape_string($mysqli, $_GET['id']);
-                            $query = "SELECT * FROM cliente WHERE id='$student_id' ";
+                            $query = "SELECT * FROM aluno WHERE id='$student_id' ";
                             $query_run = mysqli_query($mysqli, $query);
 
                             if(mysqli_num_rows($query_run) > 0)
@@ -64,19 +64,13 @@
                                 ?>
                                 
                                     <div class="mb-3">
-                                        <label>Nome</label>
+                                        <label>Nome:</label>
                                         <p class="form-control">
-                                            <?=$student['nome'];?>
+                                            <?=$student['nome'] . ' ' . $student['sobrenome'];?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Cpf</label>
-                                        <p class="form-control">
-                                            <?=$student['cpf'];?>
-                                        </p>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label>email</label>
+                                        <label>Email:</label>
                                         <p class="form-control">
                                             <?=$student['email'];?>
                                         </p>

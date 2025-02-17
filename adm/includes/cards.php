@@ -56,14 +56,14 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<?php if (isset($_SESSION['tipo_usuario']) && ($_SESSION['tipo_usuario'] === 'adm' || $_SESSION['tipo_usuario'] === 'professor')): ?>
+<?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'professor')): ?>
     <section class="container">
         <h3  style="text-align: center;" id="eventos">Possibilidades</h3><br>
         <div class="row row-cols-3 row-cols-md-6 g-6">
 
             <div class="col">
                 <div class="card" id="card">
-                    <img src="img/cadastro cursos.png" class="card-img-top" alt="...">
+                    <img src="img/cadastro estoque.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title"><span data-bs-toggle="modal" data-bs-target="#exampleModal1"  style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Cad.cursos</span></h5>
                         <p class="card-text" id="cardtext"></p>
@@ -125,7 +125,7 @@
     </section>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['tipo_usuario']) && ($_SESSION['tipo_usuario'] === 'aluno' )): ?>
+<?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'aluno' )): ?>
     <section class="container my-5">
         <h3 class="text-center text-dark mb-4" id="eventos">Possibilidades</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
