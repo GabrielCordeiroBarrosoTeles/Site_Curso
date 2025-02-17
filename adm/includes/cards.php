@@ -189,7 +189,7 @@
                         echo '<div class="modal-dialog" role="document">';
                             echo '<div class="modal-content">';
                                 echo '<div class="modal-header">';
-                                    echo '<h5 class="modal-title" id="exampleModalLabel">' . $cursos["nome"] . '</h5>';
+                                    echo '<h5 class="modal-title" id="exampleModalLabel">' . $cursos["titulo"] . '</h5>';
                                     echo '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
                                         echo '<span aria-hidden="true">&times;</span>';
                                     echo '</button>';
@@ -200,6 +200,7 @@
                                     echo '<p>Detalhe: ' . $cursos["descricao"] . '</p>';
                                     echo '<p>Professor: ' . $cursos["nome_professor"] . ' ' . $cursos["sobrenome_professor"] . '</p>';
                                     echo '<p>Valor: ' . $cursos["valor"] . '</p>';
+                                    echo '<p>Data de criação: ' . date("d/m/Y", strtotime($cursos["data_criacao"])) . '</p>';
                                 echo '</div>';
                                 echo '<div class="modal-footer">';
                                     echo '<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>';

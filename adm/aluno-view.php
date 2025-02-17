@@ -28,7 +28,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
 
-    <title>Detalhes do cliente</title>
+    <title>Detalhes do aluno</title>
 </head>
 <body>
 <?php include './includes/navbar_modal.php'?><!--Navbar-->
@@ -38,8 +38,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Dados do cliente 
-                            <a href="exibir_cliente.php" class="btn btn-danger float-end">
+                        <h4>Dados do aluno 
+                            <a href="exibir_aluno.php" class="btn btn-danger float-end">
                                 VOLTAR
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
@@ -76,12 +76,36 @@
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>telefone</label>
+                                        <label>Telefone:</label>
                                         <p class="form-control">
-                                            <?=$student['telefone'];?>
+                                            <span id="telefone"><?= preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $student['telefone']); ?></span>
                                         </p>
                                     </div>
-                                    
+                                    <div class="mb-3">
+    <label for="cursos">Cursos:</label>
+    <select class="form-control" id="cursos" name="cursos">
+        <option value="" disabled selected>Selecione um curso</option>
+        <?php
+        $courses_query = "SELECT curso.id, curso.titulo FROM matricula 
+                          JOIN curso ON matricula.id_curso = curso.id 
+                          WHERE matricula.id_aluno='$student_id'";
+        $courses_query_run = mysqli_query($mysqli, $courses_query);
+
+        if(mysqli_num_rows($courses_query_run) > 0) {
+            while($course = mysqli_fetch_array($courses_query_run)) {
+                ?>
+                <option value="<?= $course['id']; ?>"><?= $course['titulo']; ?></option>
+                <?php
+            }
+        } else {
+            echo "<option disabled>Nenhum curso encontrado</option>";
+        }
+        ?>
+    </select>
+</div>
+
+<!-- Div para exibir os detalhes do curso -->
+<div id="cursoDetalhes" class="mt-3 text-center"></div>
 
                                 <?php
                             }
@@ -109,5 +133,23 @@
         $seuCampoCpf.mask('(00) 00000-0000', {reverse: true});
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#cursos').change(function(){
+        var curso_id = $(this).val();
+
+        $.ajax({
+            url: 'get_curso.php',
+            type: 'POST',
+            data: { curso_id: curso_id },
+            success: function(response){
+                $('#cursoDetalhes').html(response);
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>
