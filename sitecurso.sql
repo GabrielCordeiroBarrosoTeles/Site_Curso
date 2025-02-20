@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2025 at 09:28 PM
+-- Generation Time: Feb 20, 2025 at 05:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,15 +32,17 @@ CREATE TABLE `aluno` (
   `id_usuario` int(11) NOT NULL,
   `nome` varchar(100) DEFAULT NULL,
   `sobrenome` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL
+  `email` varchar(100) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aluno`
 --
 
-INSERT INTO `aluno` (`id`, `id_usuario`, `nome`, `sobrenome`, `email`) VALUES
-(1, 3, 'Maria', 'Silva', 'maria@example.com');
+INSERT INTO `aluno` (`id`, `id_usuario`, `nome`, `sobrenome`, `email`, `telefone`) VALUES
+(1, 3, 'Maria', 'Silva', 'maria@example.com', '85997752571'),
+(3, 7, 'Eduardo ', 'Lima', 'gabrielcordeirobarroso@gmail.com', '(85) 99775-2571');
 
 -- --------------------------------------------------------
 
@@ -54,19 +56,21 @@ CREATE TABLE `aula` (
   `titulo` varchar(150) NOT NULL,
   `conteudo` text DEFAULT NULL,
   `ordem` int(11) DEFAULT NULL,
-  `drive_link` varchar(255) DEFAULT NULL
+  `drive_link` varchar(255) DEFAULT NULL,
+  `duracao` time NOT NULL DEFAULT '00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aula`
 --
 
-INSERT INTO `aula` (`id`, `id_modulo`, `titulo`, `conteudo`, `ordem`, `drive_link`) VALUES
-(1, 1, 'Instalação do Ambiente', 'Como configurar o ambiente de desenvolvimento.', 1, NULL),
-(2, 1, 'Seu Primeiro Programa', 'Criação e execução do primeiro programa.', 2, NULL),
-(3, 2, 'Vetores', 'Conceitos e manipulação de vetores.', 1, NULL),
-(4, 2, 'Listas Ligadas', 'Conceitos e implementações de listas ligadas.', 2, NULL),
-(5, 3, 'Instalação do MySQL', 'Passo a passo para instalar o MySQL.', 1, NULL);
+INSERT INTO `aula` (`id`, `id_modulo`, `titulo`, `conteudo`, `ordem`, `drive_link`, `duracao`) VALUES
+(1, 1, 'Instalação do Ambiente', 'Como configurar o ambiente de desenvolvimento.', 1, NULL, '00:00:00'),
+(2, 1, 'Seu Primeiro Programa', 'Criação e execução do primeiro programa.', 3, NULL, '00:00:00'),
+(3, 2, 'Vetores', 'Conceitos e manipulação de vetores.', 1, NULL, '00:00:00'),
+(4, 2, 'Listas Ligadas', 'Conceitos e implementações de listas ligadas.', 2, NULL, '00:00:00'),
+(5, 3, 'Instalação do MySQL', 'Passo a passo para instalar o MySQL.', 1, NULL, '00:00:00'),
+(6, 1, 'rubi', 'rubi', 2, 'https://drive.google.com/file/d/1O21xlS1UdH8PkYwmSR75lsEs8TwbPNnY/preview', '00:03:27');
 
 -- --------------------------------------------------------
 
@@ -90,8 +94,8 @@ CREATE TABLE `curso` (
 --
 
 INSERT INTO `curso` (`id`, `id_prof`, `titulo`, `descricao`, `data_criacao`, `categoria`, `imagem_capa`, `valor`) VALUES
-(1, 1, 'Curso de Programação', 'Aprenda programação do básico ao avançado.', '2025-02-14 14:45:42', 'Programação', 'python.png', 0.00),
-(2, 2, 'Curso de Banco de Dados', 'Conceitos fundamentais de bancos de dados.', '2025-02-14 14:45:42', 'Banco de Dados', 'bd.jfif', 0.00);
+(1, 2, 'Curso de Programação', 'Aprenda programação do básico ao avançado.', '2025-02-14 14:45:42', 'Programação', 'python.png', 851.75),
+(2, 1, 'Banco de Dados', 'Banco de Dados', '2025-02-14 14:45:42', 'Banco de Dados', 'bd.jfif', 225.52);
 
 -- --------------------------------------------------------
 
@@ -125,17 +129,20 @@ CREATE TABLE `modulo` (
   `id_curso` int(11) NOT NULL,
   `titulo` varchar(150) NOT NULL,
   `descricao` text DEFAULT NULL,
-  `ordem` int(11) DEFAULT NULL
+  `ordem` int(11) DEFAULT NULL,
+  `imagem` varchar(255) NOT NULL,
+  `duracao` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `modulo`
 --
 
-INSERT INTO `modulo` (`id`, `id_curso`, `titulo`, `descricao`, `ordem`) VALUES
-(1, 1, 'Introdução à Programação', 'Conceitos iniciais e ambiente de desenvolvimento.', 1),
-(2, 1, 'Estruturas de Dados', 'Estudo das principais estruturas de dados.', 2),
-(3, 2, 'Introdução a Bancos de Dados', 'Noções básicas e conceitos fundamentais.', 1);
+INSERT INTO `modulo` (`id`, `id_curso`, `titulo`, `descricao`, `ordem`, `imagem`, `duracao`) VALUES
+(1, 1, 'Introdução à Programação', 'Conceitos iniciais e ambiente de desenvolvimento.', 3, '', 0),
+(2, 1, 'Estruturas de Dados', 'Estudo das principais estruturas de dados.', 4, '', 0),
+(3, 2, 'Introdução a Bancos de Dados', 'Noções básicas e conceitos fundamentais.', 1, '', 0),
+(4, 1, 'testedfbgdfsg', 'test desc', 2, 'vasco-vasco-da-gama-cross-soccer-hd-wallpaper-preview.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,9 @@ INSERT INTO `usuario` (`id`, `login`, `senha`, `tipo_usuario`) VALUES
 (2, 'admin', '0192023a7bbd73250516f069df18b500', 'admin'),
 (3, 'maria', 'e7d80ffeefa212b7c5c55700e4f7193e', 'aluno'),
 (4, 'aluno.maria', 'c323d55e3042ae39303b2f106ca10b11', 'aluno'),
-(5, 'prof.carlos', '9ad48828b0955513f7cf0f7f6510c8f8', 'professor');
+(5, 'prof.carlos', '9ad48828b0955513f7cf0f7f6510c8f8', 'professor'),
+(6, 'edu', '$2y$10$NcCRwOf14WHD.rldF0C1mu7jgC9ZFo/mKlIqa7CY04Yp97fdqIpfK', 'aluno'),
+(7, 'edu', '$2y$10$AcfaSiiZSSlxRMrrw9PTMePUrT33cGeuJjvCDXt3YWhbBa/9VSOZ.', 'aluno');
 
 --
 -- Indexes for dumped tables
@@ -244,19 +253,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `matricula`
@@ -268,7 +277,7 @@ ALTER TABLE `matricula`
 -- AUTO_INCREMENT for table `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `professor`
@@ -280,7 +289,7 @@ ALTER TABLE `professor`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

@@ -119,7 +119,7 @@
                                                 </td>
                                                 <?php if (isset($_SESSION['user_tipo_usuario']) && $_SESSION['user_tipo_usuario'] === 'adm'): ?>
                                                 <td> 
-                                                    <form action="code.php" method="POST" class="d-inline">
+                                                    <form action="code.php" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja deletar este aluno?');">
                                                         <button type="submit" name="delete_aluno" value="<?=$student['aluno_id'];?>" class="btn btn-danger btn-sm">
                                                             Deletar
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">

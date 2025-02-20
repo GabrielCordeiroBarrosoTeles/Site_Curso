@@ -23,6 +23,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 // Define as variáveis com base no tipo_usuario do usuário
 $tipo_usuario = $_SESSION['user_tipo_usuario'] ?? '';
 
+$isCliente = ($tipo_usuario === 'aluno');
 $isOperador = ($tipo_usuario === 'professor');
 $isAdm = ($tipo_usuario === 'adm');
 

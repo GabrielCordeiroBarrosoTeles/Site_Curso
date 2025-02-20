@@ -6,7 +6,7 @@
     require '../dbcon.php';
 
     // Verificação de cargo
-    if (!isset($_SESSION['tipo_usuario']) || ($_SESSION['tipo_usuario'] !== 'adm' && $_SESSION['tipo_usuario'] !== 'operador')) {
+    if (!isset($_SESSION['user_tipo_usuario']) || ($_SESSION['user_tipo_usuario'] !== 'adm' && $_SESSION['user_tipo_usuario'] !== 'professor')) {
         // Redirecione para uma página de erro ou exiba uma mensagem de acesso negado
         header('Location: erro_acesso.php'); // Página de erro personalizada
         exit(); // Encerra a execução do script
@@ -36,7 +36,7 @@
                 border-radius: 30px;
             }
         </style>
-    <title>Cliente Edit</title>
+    <title>aluno Edit</title>
 </head>
 <body>
 <?php include './includes/navbar_modal.php'?><!--Navbar-->
@@ -48,8 +48,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Editar Cliente 
-                            <a href="exibir_cliente.php" class="btn btn-danger float-end">VOLTAR
+                        <h4>Editar aluno 
+                            <a href="exibir_aluno.php" class="btn btn-danger float-end">VOLTAR
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
                                     <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
@@ -63,7 +63,7 @@
                         if(isset($_GET['id']))
                         {
                             $student_id = mysqli_real_escape_string($mysqli, $_GET['id']);
-                            $query = "SELECT * FROM cliente WHERE id='$student_id' ";
+                            $query = "SELECT * FROM aluno WHERE id='$student_id' ";
                             $query_run = mysqli_query($mysqli, $query);
 
                             if(mysqli_num_rows($query_run) > 0)
@@ -75,12 +75,10 @@
 
                                     <div class="mb-3">
                                         <label>Nome</label>
-                                        <input type="text" name="nome" value="<?=$student['nome'];?>" class="form-control">
+                                        <input type="text" name="nome" value="<?=$student['nome'].$student['sobrenome'];?>" class="form-control">
                                     </div>
-                                    <div class="mb-3">
-                                        <label>cpf</label>
-                                        <input type="text" name="cpf" value="<?=$student['cpf'];?>" class="form-control">
-                                    </div>
+
+        
                                     <div class="mb-3">
                                         <label>email</label>
                                         <input type="text" name="email" value="<?=$student['email'];?>" class="form-control">
@@ -91,8 +89,8 @@
                                     </div>
                                    
                                     <div class="mb-3">
-                                        <button type="submit" name="update_cliente" class="btn btn-primary">
-                                            Atualizar Cliente
+                                        <button type="submit" name="update_aluno" class="btn btn-primary">
+                                            Atualizar aluno
                                         </button>
                                     </div>
 

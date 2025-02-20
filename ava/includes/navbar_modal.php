@@ -117,7 +117,7 @@
                     </li> 
                     <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'professor')): ?>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1"  aria-hidden="true" style="color:black;">Cad. curso</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1"  aria-hidden="true" style="color:black;">Cad. estoque</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2"  aria-hidden="true" style="color:black;">Cad. cliente</a>
@@ -127,6 +127,11 @@
                         </li>
                     <?php endif; ?>
 
+                    <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' )): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3"  aria-hidden="true" style="color:black;">Cad. Usuario</a>
+                        </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="exibir_cursos.php" style="color:black;">Exibir cursos</a>
                     </li>
@@ -349,7 +354,43 @@
 </style>
 
 
-
+<!-- Modal Cadastro Usuário -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel"  style="text-align:center">Cadastro de Usuário</h2>
+                <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="cadastrar_usuario.php" method="post">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login:</label>
+                        <input type="text" class="form-control" id="login" name="login" placeholder="Digite o login" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha:</label>
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite a senha" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cargo:</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cargo" id="operador" value="operador" required>
+                            <label class="form-check-label" for="operador">Operador</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="cargo" id="adm" value="adm" required>
+                            <label class="form-check-label" for="adm">Administrador</label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     .modal-header {
