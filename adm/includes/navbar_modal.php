@@ -101,10 +101,9 @@
 
     <!-- Navbar 2 -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="home.php">
-            <a class="navbar-brand" href="home.php">
-                <img src="../img/logo.png" alt="" srcset="" style="width:30px;"><!--Nome da empresa com a ultima palavra em destaque-->
+                <img src="../img/logo.png" alt="" srcset="" style="width:30px;">
                 <?php echo $PrimeiraParte . ' '; ?><span style="color: #2222ff;"><?php echo $UltimaPalavra; ?></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,10 +116,10 @@
                     </li> 
                     <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'professor')): ?>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1"  aria-hidden="true" style="color:black;">Cad. curso</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1" aria-hidden="true" style="color:black;">Cad. curso</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2"  aria-hidden="true" style="color:black;">Cad. cliente</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2" aria-hidden="true" style="color:black;">Cad. cliente</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="exibir_aluno.php" style="color:black;">Exibir aluno</a>
@@ -146,7 +145,6 @@
                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                     </svg>
                 </a>
-
             </div>
         </div>
     </nav>
