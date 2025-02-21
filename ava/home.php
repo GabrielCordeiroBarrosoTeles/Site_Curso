@@ -35,11 +35,17 @@
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="70">
 
     <?php include './includes/navbar_modal.php'?> <!--Navbar-->
-    <br>
-    <br>
-    <h1 style="text-align:center;">Seja bem-vindo</h1>
-    <br>
+
+    <?php include 'includes/carousel.php'?><!--Carousel-->
+
+    <?php include 'includes/zap.php'?><!--WhatsApp-->
+
     <?php include './includes/cards.php'?><!--Cards-->
+
+    <?php include 'includes/carouselmarca.php'?><!--CarouselMarca-->
+
+    <?php include 'includes/footer.php'?><!--Footer-->
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
     <script>

@@ -1,11 +1,14 @@
 <?php
 session_start();
-require 'dbcon.php';
+require '../dbcon.php';
 
 // Verificação de sessão
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['message'] = "Você precisa estar logado para se inscrever em um curso.";
-    header("Location: login.php");
+    echo "<script>
+            alert('Você precisa estar logado para se inscrever em um curso.');
+            window.location.href = 'index.php';
+          </script>";
     exit(0);
 }
 
@@ -55,7 +58,7 @@ if (isset($_POST['inscrever'])) {
     <title>Inscrição</title>
 </head>
 <body>
-    <?php include 'includes/navbarmodal.php'; ?> <!-- Navbar -->
+    <?php include 'includes/navbar_modal.php'; ?> <!-- Navbar -->
 
     <div class="container mt-5">
         <?php include('message.php'); ?>
