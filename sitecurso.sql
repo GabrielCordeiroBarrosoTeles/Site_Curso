@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2025 at 05:37 PM
+-- Generation Time: Feb 21, 2025 at 06:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,11 +66,11 @@ CREATE TABLE `aula` (
 
 INSERT INTO `aula` (`id`, `id_modulo`, `titulo`, `conteudo`, `ordem`, `drive_link`, `duracao`) VALUES
 (1, 1, 'Instalação do Ambiente', 'Como configurar o ambiente de desenvolvimento.', 1, NULL, '00:00:00'),
-(2, 1, 'Seu Primeiro Programa', 'Criação e execução do primeiro programa.', 3, NULL, '00:00:00'),
+(2, 1, 'Seu Primeiro Programa', 'Criação e execução do primeiro programa.', 2, NULL, '00:00:00'),
 (3, 2, 'Vetores', 'Conceitos e manipulação de vetores.', 1, NULL, '00:00:00'),
 (4, 2, 'Listas Ligadas', 'Conceitos e implementações de listas ligadas.', 2, NULL, '00:00:00'),
 (5, 3, 'Instalação do MySQL', 'Passo a passo para instalar o MySQL.', 1, NULL, '00:00:00'),
-(6, 1, 'rubi', 'rubi', 2, 'https://drive.google.com/file/d/1O21xlS1UdH8PkYwmSR75lsEs8TwbPNnY/preview', '00:03:27');
+(6, 1, 'rubi', 'rubi', 3, 'https://drive.google.com/file/d/1O21xlS1UdH8PkYwmSR75lsEs8TwbPNnY/preview', '00:03:27');
 
 -- --------------------------------------------------------
 
@@ -116,7 +116,11 @@ CREATE TABLE `matricula` (
 
 INSERT INTO `matricula` (`id`, `id_aluno`, `id_curso`, `data_matricula`) VALUES
 (1, 1, 1, '2025-02-14 14:46:41'),
-(2, 1, 2, '2025-02-14 14:46:41');
+(2, 1, 2, '2025-02-14 14:46:41'),
+(3, 1, 1, '2025-02-21 15:49:53'),
+(4, 1, 1, '2025-02-21 15:50:06'),
+(5, 3, 1, '2025-02-21 15:50:50'),
+(6, 3, 2, '2025-02-21 15:54:56');
 
 -- --------------------------------------------------------
 
@@ -271,7 +275,7 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT for table `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `modulo`
