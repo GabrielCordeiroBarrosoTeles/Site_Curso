@@ -28,9 +28,9 @@ $isOperador = ($tipo_usuario === 'professor');
 $isAdm = ($tipo_usuario === 'adm');
 
 // Exemplo de uso: restrição de acesso com base no tipo_usuario
-if (!$isAdm && !$isOperador) {
+if (!$isAdm && !$isOperador && !$isCliente) {
     echo "<script>alert('Você não tem permissão para acessar esta página!');</script>";
-    header('Location: ../index.php'); // Redireciona se não for admin
+    header('Location: ../index.php'); // Redireciona se não for admin, operador ou aluno
     exit();
 }
 ?>

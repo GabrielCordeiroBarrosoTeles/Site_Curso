@@ -101,10 +101,9 @@
 
     <!-- Navbar 2 -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="home.php">
-            <a class="navbar-brand" href="home.php">
-                <img src="../img/logo.png" alt="" srcset="" style="width:30px;"><!--Nome da empresa com a ultima palavra em destaque-->
+                <img src="../img/logo.png" alt="" srcset="" style="width:30px;">
                 <?php echo $PrimeiraParte . ' '; ?><span style="color: #2222ff;"><?php echo $UltimaPalavra; ?></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,31 +116,27 @@
                     </li> 
                     <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'professor')): ?>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1"  aria-hidden="true" style="color:black;">Cad. estoque</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal1" aria-hidden="true" style="color:black;">Cad. curso</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2"  aria-hidden="true" style="color:black;">Cad. cliente</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2" aria-hidden="true" style="color:black;">Cad. cliente</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="exibir_aluno.php" style="color:black;">Exibir aluno</a>
                         </li>
                     <?php endif; ?>
 
-                    <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' )): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3"  aria-hidden="true" style="color:black;">Cad. Usuario</a>
-                        </li>
-                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="exibir_cursos.php" style="color:black;">Exibir cursos</a>
                     </li>
                     <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'operador')): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="exibir_notasfiscais.php" style="color:black;">Exibir NF</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3" aria-hidden="true" style="color:black;">Matricular</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="gerar_nota_fiscal.php" style="color:black;">Gerar NF</a>
+                            <a class="nav-link" href="exibir_notasfiscais.php" style="color:black;">Exibir NF</a>
                         </li>
+                        
                     <?php endif; ?>
                 </ul>
                 <a href="logout.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">
@@ -151,7 +146,6 @@
                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                     </svg>
                 </a>
-
             </div>
         </div>
     </nav>
@@ -273,15 +267,141 @@
         border: none;
     }
     .btn-primary:hover {
-        background-color: #6b3510;
+        background-color: #38AAF2;
     }
     .form-label {
-        color: #2222ff;
+        color:rgb(0, 0, 0);
     }
 </style>
 
 
-    <!-- Modal Cadastro Aluno -->
+<!-- Modal Matricular Aluno -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel" style="text-align:center">Matricular Aluno</h2>
+                <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="code.php" method="post" id="matriculaForm">
+                    <div class="mb-3">
+                        <label for="aluno" class="form-label" style="color: #000;">Aluno:</label>
+                        <select class="form-control" id="aluno" name="aluno" required>
+                            <option value="" disabled selected>Selecione o aluno</option>
+                            <?php
+                                $query = "SELECT aluno.id, aluno.nome, aluno.telefone, aluno.sobrenome, aluno.email, usuario.login 
+                                          FROM aluno 
+                                          INNER JOIN usuario ON aluno.id_usuario = usuario.id";
+                                $result = mysqli_query($mysqli, $query);
+                                if ($result) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='{$row['id']}' 
+                                                  data-email='{$row['email']}' 
+                                                  data-login='{$row['login']}' 
+                                                  data-phone='{$row['telefone']}'>
+                                                  {$row['nome']} {$row['sobrenome']}
+                                              </option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Erro na conexão</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="login_aluno" class="form-label" style="color: #000;">Login:</label>
+                            <input type="text" class="form-control" id="login_aluno" name="login_aluno" placeholder="Login do aluno" style="background-color: #e9ecef;" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_aluno" class="form-label" style="color: #000;">Telefone do Aluno:</label>
+                            <input type="text" class="form-control phone" id="phone_aluno" name="phone_aluno" placeholder="Telefone do aluno" style="background-color: #e9ecef;" readonly>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#phone_aluno').mask('(00) 00000-0000');
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                         <label for="email_aluno" class="form-label" style="color: #000;">Email do Aluno:</label>
+                        <input type="text" class="form-control" id="email_aluno" name="email_aluno" placeholder="Email do aluno" style="background-color: #e9ecef;" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="curso" class="form-label" style="color: #000;">Curso:</label>
+                        <select class="form-control" id="curso" name="curso" required>
+                            <option value="" disabled selected>Selecione o curso</option>
+                            <?php
+                                $query = "SELECT id, titulo FROM curso";
+                                $result = mysqli_query($mysqli, $query);
+                                if ($result) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='{$row['id']}'>{$row['titulo']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Erro na conexão</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" name="save_matricula" id="save_matricula" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript para preencher campos e checar matrícula via AJAX -->
+<script>
+document.getElementById('aluno').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var email = selectedOption.getAttribute('data-email');
+    var login = selectedOption.getAttribute('data-login');
+    var phone = selectedOption.getAttribute('data-phone');
+    document.getElementById('email_aluno').value = email;
+    document.getElementById('login_aluno').value = login;
+    document.getElementById('phone_aluno').value = phone;
+    checkMatricula();
+});
+
+document.getElementById('curso').addEventListener('change', function() {
+    checkMatricula();
+});
+
+function checkMatricula() {
+    var aluno = document.getElementById('aluno').value;
+    var curso = document.getElementById('curso').value;
+    if (aluno && curso) {
+        $.ajax({
+            url: 'check_matricula.php',
+            type: 'GET',
+            data: { aluno: aluno, curso: curso },
+            dataType: 'json',
+            success: function(response) {
+                if(response.exists) {
+                    alert('Aluno já matriculado neste curso!');
+                    $('#save_matricula').prop('disabled', true);
+                } else {
+                    $('#save_matricula').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Se ocorrer erro, permite o envio do formulário
+                $('#save_matricula').prop('disabled', false);
+            }
+        });
+    }
+}
+</script>
+
+
+<!-- Modal Cadastro Aluno -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -329,68 +449,6 @@
     </div>
 </div>
 
-<style>
-    .modal-header {
-        background-color: #2222ff;
-        color: white;
-    }
-    .modal-title {
-        margin: auto;
-    }
-    .btn-close {
-        background-color: white;
-        border: none;
-    }
-    .btn-primary {
-        background-color: #2222ff;
-        border: none;
-    }
-    .btn-primary:hover {
-        background-color: #6b3510;
-    }
-    .form-label {
-        color: #2222ff;
-    }
-</style>
-
-
-<!-- Modal Cadastro Usuário -->
-<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel"  style="text-align:center">Cadastro de Usuário</h2>
-                <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="cadastrar_usuario.php" method="post">
-                    <div class="mb-3">
-                        <label for="login" class="form-label">Login:</label>
-                        <input type="text" class="form-control" id="login" name="login" placeholder="Digite o login" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="senha" class="form-label">Senha:</label>
-                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite a senha" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Cargo:</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="cargo" id="operador" value="operador" required>
-                            <label class="form-check-label" for="operador">Operador</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="cargo" id="adm" value="adm" required>
-                            <label class="form-check-label" for="adm">Administrador</label>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <style>
     .modal-header {
@@ -409,17 +467,12 @@
         border: none;
     }
     .btn-primary:hover {
-        background-color: #6b3510;
+        background-color: #38AAF2;
     }
     .form-label {
         color:rgb(0, 0, 0);
     }
-    .form-check-label {
-        color:rgb(0, 0, 0);
-    }
 </style>
-
-
 
     <script>
         const dataAtual = new Date();

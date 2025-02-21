@@ -44,11 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_login'] = $user['login'];
             $_SESSION['user_tipo_usuario'] = $user['tipo_usuario']; // Armazena o tipo_usuario do usuário na sessão
-            $_SESSION['welcome_message'] = 'Bem-vindo à página administrativa! Você é ' . $user['tipo_usuario'] . '.';
+
+            // Definir mensagem de boas-vindas com base no tipo de usuário
+            if ($user['tipo_usuario'] == 'aluno') {
+                $_SESSION['welcome_message'] = 'Bem-vindo ao ambiente de aprendizado!';
+            } else {
+                $_SESSION['welcome_message'] = 'Bem-vindo à página administrativa! Você é ' . $user['tipo_usuario'] . '.';
+            }
 
             $stmt->close();
             $mysqli->close();
-            header('Location: adm/home.php'); // Redirecionar para home
+
+            // Redirecionar com base no tipo de usuário
+            if ($user['tipo_usuario'] == 'aluno') {
+                header('Location: ava/home.php'); // Redirecionar para a pasta ava
+            } else {
+                header('Location: adm/home.php'); // Redirecionar para home
+            }
             exit();
         } else {
             // Senha incorreta
