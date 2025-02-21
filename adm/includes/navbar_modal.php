@@ -280,21 +280,28 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel"  style="text-align:center">Matricular Aluno</h2>
+                <h2 class="modal-title" id="exampleModalLabel" style="text-align:center">Matricular Aluno</h2>
                 <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="code.php" method="post">
+                <form action="code.php" method="post" id="matriculaForm">
                     <div class="mb-3">
-                        <label for="aluno" class="form-label">Aluno:</label>
+                        <label for="aluno" class="form-label" style="color: #000;">Aluno:</label>
                         <select class="form-control" id="aluno" name="aluno" required>
                             <option value="" disabled selected>Selecione o aluno</option>
                             <?php
-                                $query = "SELECT aluno.id, aluno.nome, aluno.sobrenome, aluno.email, usuario.login FROM aluno INNER JOIN usuario ON aluno.id_usuario = usuario.id";
+                                $query = "SELECT aluno.id, aluno.nome, aluno.telefone, aluno.sobrenome, aluno.email, usuario.login 
+                                          FROM aluno 
+                                          INNER JOIN usuario ON aluno.id_usuario = usuario.id";
                                 $result = mysqli_query($mysqli, $query);
                                 if ($result) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value='{$row['id']}' data-email='{$row['email']}' data-login='{$row['login']}'>{$row['nome']} {$row['sobrenome']}</option>";
+                                        echo "<option value='{$row['id']}' 
+                                                  data-email='{$row['email']}' 
+                                                  data-login='{$row['login']}' 
+                                                  data-phone='{$row['telefone']}'>
+                                                  {$row['nome']} {$row['sobrenome']}
+                                              </option>";
                                     }
                                 } else {
                                     echo "<option value=''>Erro na conexão</option>";
@@ -305,42 +312,94 @@
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="login_aluno" class="form-label">Login:</label>
+                            <label for="login_aluno" class="form-label" style="color: #000;">Login:</label>
                             <input type="text" class="form-control" id="login_aluno" name="login_aluno" placeholder="Login do aluno" style="background-color: #e9ecef;" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="email_aluno" class="form-label">Email do Aluno:</label>
-                            <input type="text" class="form-control" id="email_aluno" name="email_aluno" placeholder="Email do aluno" style="background-color: #e9ecef;" readonly>
+                            <label for="phone_aluno" class="form-label" style="color: #000;">Telefone do Aluno:</label>
+                            <input type="text" class="form-control phone" id="phone_aluno" name="phone_aluno" placeholder="Telefone do aluno" style="background-color: #e9ecef;" readonly>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#phone_aluno').mask('(00) 00000-0000');
+                                });
+                            </script>
                         </div>
-                        <script>
-                            document.getElementById('aluno').addEventListener('change', function() {
-                                var selectedOption = this.options[this.selectedIndex];
-                                var email = selectedOption.getAttribute('data-email');
-                                var login = selectedOption.getAttribute('data-login');
-                                document.getElementById('email_aluno').value = email;
-                                document.getElementById('login_aluno').value = login;
-                            });
-                        </script>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite o email" required>
+                         <label for="email_aluno" class="form-label" style="color: #000;">Email do Aluno:</label>
+                        <input type="text" class="form-control" id="email_aluno" name="email_aluno" placeholder="Email do aluno" style="background-color: #e9ecef;" readonly>
                     </div>
+
                     <div class="mb-3">
-                        <label for="telefone" class="form-label">Telefone:</label>
-                        <input type="text" class="form-control phone" id="telefone" name="telefone" placeholder="Digite o telefone" required>
+                        <label for="curso" class="form-label" style="color: #000;">Curso:</label>
+                        <select class="form-control" id="curso" name="curso" required>
+                            <option value="" disabled selected>Selecione o curso</option>
+                            <?php
+                                $query = "SELECT id, titulo FROM curso";
+                                $result = mysqli_query($mysqli, $query);
+                                if ($result) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='{$row['id']}'>{$row['titulo']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Erro na conexão</option>";
+                                }
+                            ?>
+                        </select>
                     </div>
-                    
-                    
                     
                     <div class="text-center">
-                        <button type="submit" name="save_cliente" class="btn btn-primary">Enviar</button>
+                        <button type="submit" name="save_matricula" id="save_matricula" class="btn btn-primary">Enviar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- JavaScript para preencher campos e checar matrícula via AJAX -->
+<script>
+document.getElementById('aluno').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var email = selectedOption.getAttribute('data-email');
+    var login = selectedOption.getAttribute('data-login');
+    var phone = selectedOption.getAttribute('data-phone');
+    document.getElementById('email_aluno').value = email;
+    document.getElementById('login_aluno').value = login;
+    document.getElementById('phone_aluno').value = phone;
+    checkMatricula();
+});
+
+document.getElementById('curso').addEventListener('change', function() {
+    checkMatricula();
+});
+
+function checkMatricula() {
+    var aluno = document.getElementById('aluno').value;
+    var curso = document.getElementById('curso').value;
+    if (aluno && curso) {
+        $.ajax({
+            url: 'check_matricula.php',
+            type: 'GET',
+            data: { aluno: aluno, curso: curso },
+            dataType: 'json',
+            success: function(response) {
+                if(response.exists) {
+                    alert('Aluno já matriculado neste curso!');
+                    $('#save_matricula').prop('disabled', true);
+                } else {
+                    $('#save_matricula').prop('disabled', false);
+                }
+            },
+            error: function() {
+                // Se ocorrer erro, permite o envio do formulário
+                $('#save_matricula').prop('disabled', false);
+            }
+        });
+    }
+}
+</script>
+
 
 <!-- Modal Cadastro Aluno -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -414,38 +473,6 @@
         color: #2222ff;
     }
 </style>
-
-
-
-
-<style>
-    .modal-header {
-        background-color: #2222ff;
-        color: white;
-    }
-    .modal-title {
-        margin: auto;
-    }
-    .btn-close {
-        background-color: white;
-        border: none;
-    }
-    .btn-primary {
-        background-color: #2222ff;
-        border: none;
-    }
-    .btn-primary:hover {
-        background-color: #38AAF2;
-    }
-    .form-label {
-        color:rgb(0, 0, 0);
-    }
-    .form-check-label {
-        color:rgb(0, 0, 0);
-    }
-</style>
-
-
 
     <script>
         const dataAtual = new Date();

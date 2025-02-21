@@ -268,7 +268,41 @@ if (isset($_POST['save_aula'])) {
 }
 
 
+if(isset($_POST['save_matricula'])){
+    // Obtém os dados enviados pelo formulário
+    $id_aluno = $_POST['aluno']; // ID do aluno selecionado
+    $id_curso = $_POST['curso']; // ID do curso selecionado
+
+    // Define a data da matrícula como a data/hora atual
+    $data_matricula = date('Y-m-d H:i:s');
+
+    // Prepara a query para inserir os dados na tabela "matrucula"
+    $query = "INSERT INTO matricula (id_aluno, id_curso, data_matricula) VALUES (?, ?, ?)";
+    $stmt = mysqli_prepare($mysqli, $query);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "iis", $id_aluno, $id_curso, $data_matricula);
+
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['message'] = "Matrícula registrada com sucesso!";
+            header("Location: exibir_aluno.php");
+            mysqli_close($mysqli);
+            exit(0);
+        } else {
+            $_SESSION['message'] = "Erro ao registrar matrícula: " . mysqli_stmt_error($stmt);
+            header("Location: exibir_aluno.php");
+            mysqli_close($mysqli);
+            exit(0);
+        }
+    } else {
+        $_SESSION['message'] = "Erro na preparação da query.";
+        header("Location: exibir_aluno.php");
+        mysqli_close($mysqli);
+        exit(0);
+    }
+} else {
+    header("Location: home.php");
+    exit(0);
+}
 
 ?>
-
-
