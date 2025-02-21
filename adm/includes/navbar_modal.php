@@ -267,7 +267,7 @@
         border: none;
     }
     .btn-primary:hover {
-        background-color: #6b3510;
+        background-color: #38AAF2;
     }
     .form-label {
         color: #2222ff;
@@ -408,7 +408,7 @@
         border: none;
     }
     .btn-primary:hover {
-        background-color: #6b3510;
+        background-color: #38AAF2;
     }
     .form-label {
         color: #2222ff;
@@ -435,7 +435,7 @@
         border: none;
     }
     .btn-primary:hover {
-        background-color: #6b3510;
+        background-color: #38AAF2;
     }
     .form-label {
         color:rgb(0, 0, 0);
