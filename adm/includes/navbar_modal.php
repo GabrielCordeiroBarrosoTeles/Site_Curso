@@ -131,11 +131,12 @@
                     </li>
                     <?php if (isset($_SESSION['user_tipo_usuario']) && ($_SESSION['user_tipo_usuario'] === 'adm' || $_SESSION['user_tipo_usuario'] === 'operador')): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="exibir_notasfiscais.php" style="color:black;">Exibir NF</a>
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal3" aria-hidden="true" style="color:black;">Matricular</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="gerar_nota_fiscal.php" style="color:black;">Gerar NF</a>
+                            <a class="nav-link" href="exibir_notasfiscais.php" style="color:black;">Exibir NF</a>
                         </li>
+                        
                     <?php endif; ?>
                 </ul>
                 <a href="logout.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">
@@ -274,7 +275,74 @@
 </style>
 
 
-    <!-- Modal Cadastro Aluno -->
+<!-- Modal Matricular Aluno -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel"  style="text-align:center">Matricular Aluno</h2>
+                <button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="code.php" method="post">
+                    <div class="mb-3">
+                        <label for="aluno" class="form-label">Aluno:</label>
+                        <select class="form-control" id="aluno" name="aluno" required>
+                            <option value="" disabled selected>Selecione o aluno</option>
+                            <?php
+                                $query = "SELECT aluno.id, aluno.nome, aluno.sobrenome, aluno.email, usuario.login FROM aluno INNER JOIN usuario ON aluno.id_usuario = usuario.id";
+                                $result = mysqli_query($mysqli, $query);
+                                if ($result) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value='{$row['id']}' data-email='{$row['email']}' data-login='{$row['login']}'>{$row['nome']} {$row['sobrenome']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>Erro na conexão</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="login_aluno" class="form-label">Login:</label>
+                            <input type="text" class="form-control" id="login_aluno" name="login_aluno" placeholder="Login do aluno" style="background-color: #e9ecef;" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email_aluno" class="form-label">Email do Aluno:</label>
+                            <input type="text" class="form-control" id="email_aluno" name="email_aluno" placeholder="Email do aluno" style="background-color: #e9ecef;" readonly>
+                        </div>
+                        <script>
+                            document.getElementById('aluno').addEventListener('change', function() {
+                                var selectedOption = this.options[this.selectedIndex];
+                                var email = selectedOption.getAttribute('data-email');
+                                var login = selectedOption.getAttribute('data-login');
+                                document.getElementById('email_aluno').value = email;
+                                document.getElementById('login_aluno').value = login;
+                            });
+                        </script>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite o email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone:</label>
+                        <input type="text" class="form-control phone" id="telefone" name="telefone" placeholder="Digite o telefone" required>
+                    </div>
+                    
+                    
+                    
+                    <div class="text-center">
+                        <button type="submit" name="save_cliente" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cadastro Aluno -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -321,6 +389,7 @@
         </div>
     </div>
 </div>
+
 
 <style>
     .modal-header {

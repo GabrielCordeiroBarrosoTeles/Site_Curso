@@ -85,7 +85,7 @@
                 <div class="card" id="card">
                     <img src="img/gerar nota fiscal.png" class="card-img-top" alt="..." >
                     <div class="card-body">
-                        <h5 class="card-title"><a href="gerar_nota_fiscal.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Ger.NF</a></h5>
+                        <h5 class="card-title"><a href="gerar_nota_fiscal.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Exib.</a></h5>
                         <p class="card-text" id="cardtext"></p>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="card"  id="card">
                     <img src="img/exibir cliente.png" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title" ><a href="exibir_cliente.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Exib.Cliente</a></h5>
+                        <h5 class="card-title" ><a href="exibir_aluno.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Exib.Aluno</a></h5>
                         <p class="card-text" id="cardtext"></p>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 <div class="card" id="card">
                     <img src="img/exibir cursos.png" class="card-img-top" alt="..." >
                     <div class="card-body">
-                        <h5 class="card-title"><a href="exibir.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Exib.cursos</a></h5>
+                        <h5 class="card-title"><a href="exibir_cursos.php" style="background-color: #2222ff;border: #2222ff" class="btn btn-brand ms-lg-3 text-light">Exib.cursos</a></h5>
                         <p class="card-text" id="cardtext"></p>
                     </div>
                 </div>
