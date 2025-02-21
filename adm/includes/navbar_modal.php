@@ -270,7 +270,7 @@
         background-color: #38AAF2;
     }
     .form-label {
-        color: #2222ff;
+        color:rgb(0, 0, 0);
     }
 </style>
 
@@ -470,7 +470,7 @@ function checkMatricula() {
         background-color: #38AAF2;
     }
     .form-label {
-        color: #2222ff;
+        color:rgb(0, 0, 0);
     }
 </style>
 

@@ -190,9 +190,7 @@
                             echo '<div class="modal-content">';
                                 echo '<div class="modal-header">';
                                     echo '<h5 class="modal-title" id="exampleModalLabel">' . $cursos["titulo"] . '</h5>';
-                                    echo '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-                                        echo '<span aria-hidden="true">&times;</span>';
-                                    echo '</button>';
+                                    echo '<button type="button" class="btn-close" style="color: #fff;" data-bs-dismiss="modal" aria-label="Close"></button>';
                                 echo '</div>';
                                 echo '<div class="modal-body">';
                                     echo '<img src="./img/categoria/'.$cursos["imagem_capa"].'" alt="" class="img-fluid d-block mx-auto mb-3" style="max-width: 200px; max-height: 200px;">';
