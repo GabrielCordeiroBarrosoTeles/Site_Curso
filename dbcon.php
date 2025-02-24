@@ -2,7 +2,7 @@
 // Configurações do banco de dados
 $host = "localhost";
 $user = "root";
-$password = ""; // Deixe vazio se não tiver senha
+$password = ""; 
 $dbname = "sitecurso";
 
 // Conectar ao banco de dados usando MySQLi

@@ -96,7 +96,7 @@ input.form-control {
 </style>
 <link rel="stylesheet" href="./css/footer.css">
 </div>
-<footer class="text-center text-lg-start" style="color:white;background-color:#FFF8E7;">
+<footer class="text-center text-lg-start" style="color:white;background-color:rgb(253, 251, 244);">
   <!-- Grid container -->
   <div class="container p-4">
     <!--Grid row-->
@@ -105,7 +105,7 @@ input.form-control {
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0" style="text-align:left;">
         <div class="tra">
-          <h3 style="color:#8B4513;text-decoration: underline;text-decoration-color: #8B4513;text-underline-offset: 30px;">Navegue</h3>
+          <h3 style="color:#2222ff;text-decoration: underline;text-decoration-color: #2222ff;text-underline-offset: 30px;">Navegue</h3>
         </div>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="produtos">
           <li class="nav-item">
@@ -137,7 +137,7 @@ if (mysqli_num_rows($query_run) > 0) {
 }
 ?>
           <li class="nav-item">
-            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="color:#FFFF;background-color: #8B4513;border: #8B4513" class="btn btn-brand">Login</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="color:#FFFF;background-color: #2222ff;border: #2222ff" class="btn btn-brand">Login</a>
           </li>
         </ul>
         
@@ -146,14 +146,14 @@ if (mysqli_num_rows($query_run) > 0) {
       <!--Grid column-->
       <div class="col-lg-4 col-md-6 mb-4 mb-md-0 text-left">
         <div class="tra">
-          <h3 id="contato" style="color:#8B4513;text-decoration: underline;text-decoration-color: #8B4513;text-underline-offset: 20px;">Contato</h3>
+          <h3 id="contato" style="color:#2222ff;text-decoration: underline;text-decoration-color: #2222ff;text-underline-offset: 20px;">Contato</h3>
         </div>
         <ul class="list-unstyled mb-0">
           
           <li>
             <a href="#!" class="text-light"> 
               <div class="single-cta">
-                <a class="ri-map-pin-2-line icon" id=""  style="color:#8B4513;text-decoration: none" href="#"></a>
+                <a class="ri-map-pin-2-line icon" id=""  style="color:#2222ff;text-decoration: none" href="#"></a>
                 <div class="cta-text">
                   <h4 class="text-dark">Vá para:</h4>
                   <span  class="text-dark">
@@ -167,7 +167,7 @@ if (mysqli_num_rows($query_run) > 0) {
           <li>
             <a href="#!" class="text-light">
               <div class="single-cta">
-                <a class="ri-phone-line icon" id=""  style="color:#8B4513;text-decoration: none" href="#"></a>
+                <a class="ri-phone-line icon" id=""  style="color:#2222ff;text-decoration: none" href="#"></a>
                 <div class="cta-text">
                   <h4  class="text-dark">Ligue para:</h4>
                   <span class="text-dark">
@@ -181,7 +181,7 @@ if (mysqli_num_rows($query_run) > 0) {
           <li>
             <a href="#!" class="text-dark">
               <div class="single-cta">
-                <a class="ri-mail-line icon" id=""   style="color:#8B4513;text-decoration: none" href="#"></a>
+                <a class="ri-mail-line icon" id=""   style="color:#2222ff;text-decoration: none" href="#"></a>
                 <div class="cta-text">
                   <h4 class="text-dark">Envie-nos um e-mail:</h4>
                   <span class="text-dark">
@@ -199,7 +199,7 @@ if (mysqli_num_rows($query_run) > 0) {
       <!--Grid column-->
       <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
         <div class="tra">
-          <h3 style="color:#8B4513;text-decoration: underline;text-decoration-color: #8B4513;text-underline-offset: 20px;">Localização</h3>
+          <h3 style="color:#2222ff;text-decoration: underline;text-decoration-color: #2222ff;text-underline-offset: 20px;">Localização</h3>
         </div>
         <div class="embed-responsive embed-responsive-16by9">
           <?php echo $IframeAddress; ?>
@@ -218,7 +218,7 @@ if (mysqli_num_rows($query_run) > 0) {
   </div>
   <!-- Grid container -->
   <!-- Copyright -->
-<div class="text-center text-light p-3" style="background-color: #632d08;">
+<div class="text-center text-light p-3" style="background-color: #2222ff;">
     &copy; <span id="anoatual"></span> - <?php echo $CompanyName ; ?> - Todos os Direitos Reservados 
   </div>
 </footer>

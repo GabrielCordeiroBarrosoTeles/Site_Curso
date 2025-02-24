@@ -1,14 +1,7 @@
 <?php
 session_start();
 
-// Definindo as constantes para conexão com o banco de dados
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'sitecurso');
-
-// Conectar ao banco de dados
-$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+require_once 'dbcon.php';
 
 // Verificar se ocorreu erro na conexão
 if ($mysqli->connect_error) {
@@ -16,21 +9,22 @@ if ($mysqli->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recebe o login e a senha do formulário
+    // Recebe o login, a senha e o tipo de usuário do formulário
     $login = htmlspecialchars(trim($_POST['login']));
     $senha = trim($_POST['senha']);
+    $tipo_usuario = htmlspecialchars(trim($_POST['tipo_usuario']));
 
     // Validar se os campos não estão vazios
-    if (empty($login) || empty($senha)) {
+    if (empty($login) || empty($senha) || empty($tipo_usuario)) {
         $_SESSION['login_error'] = "Preencha todos os campos.";
         header('Location: index.php');
         exit();
     }
 
     // Preparar a consulta para buscar o usuário no banco de dados
-    $sql = "SELECT * FROM usuario WHERE login = ?";
+    $sql = "SELECT * FROM usuario WHERE login = ? AND tipo_usuario = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("s", $login); // "s" para string
+    $stmt->bind_param("ss", $login, $tipo_usuario); // "ss" para duas strings
     $stmt->execute();
     $result = $stmt->get_result();
 

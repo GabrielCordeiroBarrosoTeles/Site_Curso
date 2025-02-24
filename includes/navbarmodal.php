@@ -102,9 +102,26 @@
                                     <input type="text" class="form-control" name="login" id="userName" aria-describedby="emailHelp">
                                 </div>
                                 <div class="col-12">
-                                    <label for="userPassword" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" name="senha" id="userPassword" aria-describedby="emailHelp">
-                                </div>   
+                                   <label for="userPassword" class="form-label">Senha</label>
+                                     <input type="password" class="form-control" name="senha" id="userPassword" aria-describedby="emailHelp">
+                                </div>
+                                <div class="col-12">
+                                    <label for="tipo_usuario" class="form-label">Tipo de Usuário</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tipo_usuario" id="aluno" value="aluno" checked>
+                                            <label class="form-check-label" for="aluno">Aluno</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tipo_usuario" id="professor" value="professor">
+                                            <label class="form-check-label" for="professor">Professor</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tipo_usuario" id="adm" value="adm">
+                                            <label class="form-check-label" for="adm">Administrador</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <button type="submit" class="text-light link botao login-btn">Logar</button>
                                 </div>
